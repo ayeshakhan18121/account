@@ -36,13 +36,13 @@ public interface recieveReturnAuthRepository extends JpaRepository<RecieveReturn
 			+ "where RETURNAUTH_ID LIKE CASE WHEN ?1 = 0 THEN RETURNAUTH_ID ELSE ?1 END "
 			+ "where CURRENCY_ID LIKE CASE WHEN ?1 = 0 THEN CURRENCY_ID ELSE ?1 END "
 			+ "and ISACTIVE='Y'", nativeQuery = true)
-	List<RecieveReturnAuth> findByAdvancedSearch(Long recieveReturnAuthparent_ID, Long CURRENCY_ID);
+	List<RecieveReturnAuth> findByAdvancedSearch(Long returnauth_ID, Long currency_ID);
 
 	@Query(value = "select * from TBLRECIEVERETURNAUTH " 
 			+ "where RETURNAUTH_ID LIKE CASE WHEN ?1 = 0 THEN RETURNAUTH_ID ELSE ?1 END "
 			+ "where CURRENCY_ID LIKE CASE WHEN ?1 = 0 THEN CURRENCY_ID ELSE ?1 END "
 			, nativeQuery = true)
-	List<RecieveReturnAuth> findAllByAdvancedSearch(Long recieveReturnAuthparent_ID, Long CURRENCY_ID);
+	List<RecieveReturnAuth> findAllByAdvancedSearch(Long returnauth_ID, Long currency_ID);
 	
 }
 
