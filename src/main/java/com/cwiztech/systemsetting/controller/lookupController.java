@@ -86,7 +86,7 @@ public class lookupController{
 
 		List<Lookup> lookups = lookuprepository.findAll();
 		
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -97,7 +97,7 @@ public class lookupController{
 
 		Lookup lookup = lookuprepository.findOne(id);
 		
-		return new ResponseEntity(getAPIResponse(null, lookup, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(null, lookup, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -117,7 +117,7 @@ public class lookupController{
 		if (jsonlookups.length()>0)
 			lookups = lookuprepository.findByIDs(ids);
 		
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -176,19 +176,19 @@ public class lookupController{
 					lookup = lookuprepository.findOne(id);
 					
 					if (lookup == null)
-						return new ResponseEntity(getAPIResponse(null, null, "Invalid Lookup Data!", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
+						return new ResponseEntity(getAPIResponse(null, null, null, null, "Invalid Lookup Data!", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.ACCEPTED);
 				}
 			}
 
 			if (id == 0) {
 				if (!jsonObj.has("entityname") || jsonObj.isNull("entityname"))
-					return new ResponseEntity(getAPIResponse(null, null, "Entityname is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
+					return new ResponseEntity(getAPIResponse(null, null, null, null, "Entityname is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.ACCEPTED);
 				
 				if (!jsonObj.has("code") || jsonObj.isNull("code"))
-					return new ResponseEntity(getAPIResponse(null, null, "Code is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
+					return new ResponseEntity(getAPIResponse(null, null, null, null, "Code is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.ACCEPTED);
 				
 				if (!jsonObj.has("description") || jsonObj.isNull("description"))
-					return new ResponseEntity(getAPIResponse(null, null, "Description is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
+					return new ResponseEntity(getAPIResponse(null, null, null, null, "Description is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.ACCEPTED);
 			}
 			
 			if (jsonObj.has("entityname") && !jsonObj.isNull("entityname"))
@@ -222,9 +222,9 @@ public class lookupController{
 		
 		ResponseEntity responseentity;
 		if (jsonLookup != null)
-			responseentity = new ResponseEntity(getAPIResponse(null, lookups.get(0), null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
+			responseentity = new ResponseEntity(getAPIResponse(null, lookups.get(0), null, null, null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
 		else
-			responseentity = new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
+			responseentity = new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
 		return responseentity;
 	}
 							
@@ -237,7 +237,7 @@ public class lookupController{
 		Lookup lookup = lookuprepository.findOne(id);
 		lookuprepository.delete(lookup);
 		
-		return new ResponseEntity(getAPIResponse(null, lookup, null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(null, lookup, null, null, null, apiRequest, true).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -276,7 +276,7 @@ public class lookupController{
 				? lookuprepository.findBySearch("%" + jsonObj.getString("search") + "%")
 				: lookuprepository.findAllBySearch("%" + jsonObj.getString("search") + "%"));
 		
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -306,7 +306,7 @@ public class lookupController{
 				? lookuprepository.findByAdvancedSearch(lookup_ID)
 				: lookuprepository.findAllByAdvancedSearch(lookup_ID));
 
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -326,7 +326,7 @@ public class lookupController{
 		String entity=(String) jsonObj.get("entityname");
 		List<Lookup> lookups =  lookuprepository.findActiveByEntityName(entity);
 		
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -339,7 +339,7 @@ public class lookupController{
 		String entity=(String) jsonObj.get("entityname");
 		List<Lookup> lookups =  lookuprepository.findAllByEntityName(entity);
 		
-		return new ResponseEntity(getAPIResponse(lookups, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
+		return new ResponseEntity(getAPIResponse(lookups, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
 
 	public APIRequestDataLog checkToken(String requestType, String requestURI, String requestBody, String workstation, String accessToken) throws JsonProcessingException {
@@ -364,8 +364,10 @@ public class lookupController{
 		return apiRequest;
 	}
 	
-	APIRequestDataLog getAPIResponse(List<Lookup> lookups, Lookup lookup, String message, APIRequestDataLog apiRequest, boolean isTableLog) throws JSONException, JsonProcessingException, ParseException {
+	APIRequestDataLog getAPIResponse(List<Lookup> lookups, Lookup lookup, JSONArray JsonLookups, JSONObject JsonLookup, String message, APIRequestDataLog apiRequest, boolean isTableLog) throws JSONException, JsonProcessingException, ParseException {
 		ObjectMapper mapper = new ObjectMapper();
+		SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
 		long lookupID = 0;
 		
 		if (message != null) {
@@ -375,9 +377,15 @@ public class lookupController{
 			if (lookup != null) {
 				apiRequest.setREQUEST_OUTPUT(mapper.writeValueAsString(lookup));
 				lookupID = lookup.getID();
-			} else {
+			} else if(lookups != null){
 				apiRequest.setREQUEST_OUTPUT(mapper.writeValueAsString(lookups));
+			}else if (JsonLookups != null) {
+				apiRequest.setREQUEST_OUTPUT(JsonLookups.toString());
+			} else if (JsonLookup != null) {
+				apiRequest.setREQUEST_OUTPUT(JsonLookup.toString());
 			}
+			
+			apiRequest.setRESPONSE_DATETIME(dateFormat1.format(date));
 			apiRequest.setREQUEST_STATUS("Success");
 			apirequestdatalogRepository.saveAndFlush(apiRequest);
 		}

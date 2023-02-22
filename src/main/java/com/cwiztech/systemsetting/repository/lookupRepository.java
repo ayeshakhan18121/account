@@ -50,4 +50,12 @@ public interface lookupRepository extends JpaRepository<Lookup, Long> {
 	@Query(value = "select * from TBLSYSTEMSETTINGLOOKUP where ENTITYNAME=?1 and CODE=?2", nativeQuery = true)
 	public Lookup findByCode(String e, String c);
 	
+	@Query(value = "select distinct d.* from TBLACADEMICSCOURSE as a"
+			+ " inner join TBLACADEMICSINTAKECOURSE as b on a.COURSE_ID=b.COURSE_ID"
+			+ " inner join TBLACADEMICSINTAKE as c on b.INTAKE_ID=c.INTAKE_ID"
+			+ " inner join TBLSYSTEMSETTINGLOOKUP as d on b.COURSEMODE_ID=d.ID"
+			+ " where a.COURSE_ID LIKE CASE WHEN ?1=0 THEN a.COURSE_ID ELSE ?1 END and"
+			+ " a.ISACTIVE='Y' and b.ISACTIVE='Y' and c.ISACTIVE='Y' and ISADMISSIONOPEN='Y'", nativeQuery = true)
+	public List<Lookup> findCourseModeByCourseForAdmission(Long cid);
+	
 }
