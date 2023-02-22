@@ -313,5 +313,7 @@ public class CustomerRefund {
 	public void setMODIFIED_WORKSTATION(String mODIFIED_WORKSTATION) {
 		MODIFIED_WORKSTATION = mODIFIED_WORKSTATION;
 	}
-	
+	public static long getDatabaseTableID() {
+		return (long) 7;
+	}
 }

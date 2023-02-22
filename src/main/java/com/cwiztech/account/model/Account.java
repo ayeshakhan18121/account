@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.domain.Example;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -213,6 +215,10 @@ public class Account {
 
 	public void setMODIFIED_WORKSTATION(String mODIFIED_WORKSTATION) {
 		MODIFIED_WORKSTATION = mODIFIED_WORKSTATION;
+	}
+
+	public static long getDatabaseTableID() {
+		return (long) 1;
 	}
 
 }

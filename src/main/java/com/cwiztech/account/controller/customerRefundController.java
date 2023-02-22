@@ -329,7 +329,7 @@ public class customerRefundController {
 		
 		List<CustomerRefund> customerrefunds = new ArrayList<CustomerRefund>();
 		JSONObject jsonObj = new JSONObject(data);
-		long customer_ID = 0, account_ID = 0, currency_ID = 0, postingperiod_ID = 0, refundmethod_ID;
+		long customer_ID = 0, account_ID = 0, currency_ID = 0, postingperiod_ID = 0, refundmethod_ID = 0;
 
 		if (jsonObj.has("customer_ID"))
 			customer_ID = jsonObj.getLong("customer_ID");

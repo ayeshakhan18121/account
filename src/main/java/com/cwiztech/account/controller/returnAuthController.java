@@ -308,10 +308,13 @@ public class returnAuthController {
 		
 		List<ReturnAuth> returnauths = new ArrayList<ReturnAuth>();
 		JSONObject jsonObj = new JSONObject(data);
-		long customer_ID = 0, product_ID = 0, currency_ID = 0, returnstatus_ID = 0, saleordertype_ID;
+		long customer_ID = 0, product_ID = 0, currency_ID = 0, returnstatus_ID = 0, saleordertype_ID =0, customerrefund_ID =0;
 
 		if (jsonObj.has("customer_ID"))
 			customer_ID = jsonObj.getLong("customer_ID");
+		
+		if (jsonObj.has("customerrefund_ID"))
+			customerrefund_ID = jsonObj.getLong("customerrefund_ID");
 		
 		if (jsonObj.has("product_ID"))
 			product_ID = jsonObj.getLong("product_ID");
@@ -325,10 +328,10 @@ public class returnAuthController {
 		if (jsonObj.has("saleordertype_ID"))
 			saleordertype_ID = jsonObj.getLong("saleordertype_ID");
 		
-		if(customer_ID != 0 || product_ID != 0 || currency_ID != 0 || returnstatus_ID != 0 || saleordertype_ID != 0){
+		if(customer_ID != 0 || product_ID != 0 || currency_ID != 0 || returnstatus_ID != 0 || saleordertype_ID != 0 || customerrefund_ID !=0){
 		 returnauths = ((active == true)
-				? returnauthrepository.findByAdvancedSearch(customer_ID , product_ID , currency_ID , returnstatus_ID , saleordertype_ID)
-				: returnauthrepository.findAllByAdvancedSearch(customer_ID , product_ID , currency_ID , returnstatus_ID , saleordertype_ID));
+				? returnauthrepository.findByAdvancedSearch(customer_ID , product_ID , currency_ID , returnstatus_ID , saleordertype_ID, customerrefund_ID)
+				: returnauthrepository.findAllByAdvancedSearch(customer_ID , product_ID , currency_ID , returnstatus_ID , saleordertype_ID, customerrefund_ID));
 		}
 		return new ResponseEntity(getAPIResponse(returnauths, null, null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
@@ -366,6 +369,10 @@ public class returnAuthController {
 			apirequestdatalogRepository.saveAndFlush(apiRequest);
 		} else {
 			if (returnauth != null) {
+				if(returnauth.getCUSTOMERREFUND_ID() != null) {
+					JSONObject customerrefund = new JSONObject(AccountService.GET("customerrefund/"+returnauth.getCUSTOMERREFUND_ID(), apiRequest.getREQUEST_OUTPUT()));
+					returnauth.setCUSTOMERREFUND_DETAIL(customerrefund.toString());
+				}
 				if(returnauth.getCUSTOMER_ID() != null) {
 				JSONObject customer = new JSONObject(AccountService.GET("customer/"+returnauth.getCUSTOMER_ID(), apiRequest.getREQUEST_OUTPUT()));
 				returnauth.setCUSTOMER_DETAIL(customer.toString());
@@ -390,6 +397,12 @@ public class returnAuthController {
 				returnauthID = returnauth.getRETURNAUTH_ID();
 			} else if(returnauths != null){
 				if (returnauths.size()>0) {
+					List<Integer> customerrefundList = new ArrayList<Integer>();
+					for (int i=0; i<returnauths.size(); i++) {
+						customerrefundList.add(Integer.parseInt(returnauths.get(i).getCUSTOMER_ID().toString()));
+					}
+					JSONArray customerrefundObject = new JSONArray(AccountService.POST("customerrefund/ids", "{customers: "+customerrefundList+"}", apiRequest.getREQUEST_OUTPUT()));
+					
 				List<Integer> customerList = new ArrayList<Integer>();
 				for (int i=0; i<returnauths.size(); i++) {
 					customerList.add(Integer.parseInt(returnauths.get(i).getCUSTOMER_ID().toString()));
@@ -421,6 +434,13 @@ public class returnAuthController {
 				JSONArray saleordertypeObject = new JSONArray(AccountService.POST("saleordertype/ids", "{saleordertypes: "+saleordertypeList+"}", apiRequest.getREQUEST_OUTPUT()));
 				
 				for (int i=0; i<returnauths.size(); i++) {
+					for (int j=0; j<customerrefundObject.length(); j++) {
+						JSONObject customerrefund = productObject.getJSONObject(j);
+						if(returnauths.get(i).getCUSTOMERREFUND_ID() == customerrefund.getLong("customerrefund_ID") ) {
+							returnauths.get(i).setCUSTOMERREFUND_DETAIL(customerrefund.toString());
+						}
+					}
+					
 				for (int j=0; j<customerObject.length(); j++) {
 					JSONObject customer = customerObject.getJSONObject(j);
 					if(returnauths.get(i).getCUSTOMER_ID() == customer.getLong("customer_ID") ) {

@@ -330,7 +330,7 @@ public class accountController {
 		
 		List<Account> accounts = new ArrayList<Account>();
 		JSONObject jsonObj = new JSONObject(data);
-		long accountparent_ID = 0, accounttype_ID = 0, generalratetype_ID, classflowratetype_ID = 0;
+		long accountparent_ID = 0, accounttype_ID = 0, generalratetype_ID = 0, classflowratetype_ID = 0;
 	
 		if (jsonObj.has("accountparent_ID"))
 			accountparent_ID = jsonObj.getLong("accountparent_ID");

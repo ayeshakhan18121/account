@@ -22,7 +22,7 @@ public class AccountService {
 	private static String accountService;
 
 	public AccountService(Environment env) {
-		AccountService.accountService = env.getRequiredProperty("file_path.ACADEMICSSERVICE");
+		AccountService.accountService = env.getRequiredProperty("file_path.ACCOUNTSERVICE");
 	}
 
 	public static String GET(String URI, String accessToken)

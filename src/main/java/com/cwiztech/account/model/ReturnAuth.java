@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "TBLACCOUNT")
+@Table(name = "TBLRETURNAUTH")
 
 public class ReturnAuth {
 	
@@ -269,5 +269,7 @@ public class ReturnAuth {
 	public void setMODIFIED_WORKSTATION(String mODIFIED_WORKSTATION) {
 		MODIFIED_WORKSTATION = mODIFIED_WORKSTATION;
 	}
-
+	public static long getDatabaseTableID() {
+		return (long) 10;
+	}
 }

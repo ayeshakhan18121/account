@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "TBLACCOUNT")
+@Table(name = "TBLCURRENCY")
 
 public class Currency {
 	
@@ -159,5 +159,7 @@ public class Currency {
 	public void setMODIFIED_WORKSTATION(String mODIFIED_WORKSTATION) {
 		MODIFIED_WORKSTATION = mODIFIED_WORKSTATION;
 	}
-
+	public static long getDatabaseTableID() {
+		return (long) 5;
+	}
 }
