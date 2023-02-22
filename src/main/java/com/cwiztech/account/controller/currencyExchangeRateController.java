@@ -31,7 +31,6 @@ import com.cwiztech.datalogs.repository.tableDataLogRepository;
 import com.cwiztech.account.model.CurrencyExchangeRate;
 import com.cwiztech.account.repository.currencyExchangeRateRepository;
 import com.cwiztech.services.AccountService;
-import com.cwiztech.services.LookupService;
 import com.cwiztech.token.AccessToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -28,7 +28,6 @@ import com.cwiztech.datalogs.repository.apiRequestDataLogRepository;
 import com.cwiztech.datalogs.repository.databaseTablesRepository;
 import com.cwiztech.datalogs.repository.tableDataLogRepository;
 import com.cwiztech.services.AccountService;
-import com.cwiztech.services.LookupService;
 import com.cwiztech.account.model.Currency;
 import com.cwiztech.account.repository.currencyRepository;
 import com.cwiztech.token.AccessToken;

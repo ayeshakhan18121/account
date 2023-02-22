@@ -30,8 +30,7 @@ import com.cwiztech.datalogs.repository.databaseTablesRepository;
 import com.cwiztech.datalogs.repository.tableDataLogRepository;
 import com.cwiztech.account.model.CreditCardTransaction;
 import com.cwiztech.account.repository.creditCardTransactionRepository;
-import com.cwiztech.services.AcademicsService;
-import com.cwiztech.services.LookupService;
+import com.cwiztech.services.AccountService;
 import com.cwiztech.token.AccessToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -341,11 +340,11 @@ public class creditCardTransactionController {
 		} else {
 			if (creditcardtransaction != null) {
 				if(creditcardtransaction.getCUSTOMER_ID() != null) {
-				JSONObject customer = new JSONObject(AcademicsService.GET("customer/"+creditcardtransaction.getCUSTOMER_ID(), apiRequest.getREQUEST_OUTPUT()));
+				JSONObject customer = new JSONObject(AccountService.GET("customer/"+creditcardtransaction.getCUSTOMER_ID(), apiRequest.getREQUEST_OUTPUT()));
 				creditcardtransaction.setCUSTOMER_DETAIL(customer.toString());
 			}
 				if(creditcardtransaction.getCARDTYPE_ID() != null) {
-					JSONObject cardtype = new JSONObject(AcademicsService.GET("cardtype/"+creditcardtransaction.getCARDTYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
+					JSONObject cardtype = new JSONObject(AccountService.GET("cardtype/"+creditcardtransaction.getCARDTYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
 					creditcardtransaction.setCARDTYPE_DETAIL(cardtype.toString());
 				}
 				apiRequest.setREQUEST_OUTPUT(mapper.writeValueAsString(creditcardtransaction));
@@ -356,13 +355,13 @@ public class creditCardTransactionController {
 				for (int i=0; i<creditcardtransactions.size(); i++) {
 					customerList.add(Integer.parseInt(creditcardtransactions.get(i).getCUSTOMER_ID().toString()));
 				}
-				JSONArray customerObject = new JSONArray(AcademicsService.POST("customer/ids", "{customers: "+customerList+"}", apiRequest.getREQUEST_OUTPUT()));
+				JSONArray customerObject = new JSONArray(AccountService.POST("customer/ids", "{customers: "+customerList+"}", apiRequest.getREQUEST_OUTPUT()));
 				
 				List<Integer> cardtypeList = new ArrayList<Integer>();
 				for (int i=0; i<creditcardtransactions.size(); i++) {
 					cardtypeList.add(Integer.parseInt(creditcardtransactions.get(i).getCARDTYPE_ID().toString()));
 				}
-				JSONArray cardtypeObject = new JSONArray(AcademicsService.POST("cardtype/ids", "{cardtypes: "+cardtypeList+"}", apiRequest.getREQUEST_OUTPUT()));
+				JSONArray cardtypeObject = new JSONArray(AccountService.POST("cardtype/ids", "{cardtypes: "+cardtypeList+"}", apiRequest.getREQUEST_OUTPUT()));
 				
 				for (int i=0; i<creditcardtransactions.size(); i++) {
 				for (int j=0; j<customerObject.length(); j++) {

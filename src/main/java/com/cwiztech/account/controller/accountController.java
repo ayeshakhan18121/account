@@ -28,7 +28,7 @@ import com.cwiztech.datalogs.repository.apiRequestDataLogRepository;
 import com.cwiztech.datalogs.repository.databaseTablesRepository;
 import com.cwiztech.datalogs.repository.tableDataLogRepository;
 import com.cwiztech.services.AccountService;
-import com.cwiztech.services.LookupService;
+import com.cwiztech.services.AccountService;
 import com.cwiztech.account.model.Account;
 import com.cwiztech.account.repository.accountRepository;
 import com.cwiztech.token.AccessToken;
@@ -396,11 +396,11 @@ public class accountController {
 					account.setACCOUNTTYPE_DETAIL(accounttype.toString());
 				}
 				if(account.getGENERALRATETYPE_ID() != null) {
-					JSONObject generalratetype = new JSONObject(LookupService.GET("generalratetype/"+account.getGENERALRATETYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
+					JSONObject generalratetype = new JSONObject(AccountService.GET("generalratetype/"+account.getGENERALRATETYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
 					account.setGENERALRATETYPE_DETAIL(generalratetype.toString());
 				}
 				if(account.getCASEFLOWRATETYPE_ID() != null) {
-					JSONObject classflowratetype = new JSONObject(LookupService.GET("classflowratetype/"+account.getCASEFLOWRATETYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
+					JSONObject classflowratetype = new JSONObject(AccountService.GET("classflowratetype/"+account.getCASEFLOWRATETYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
 					account.setCASEFLOWRATETYPE_DETAIL(classflowratetype.toString());
 				}
 				apiRequest.setREQUEST_OUTPUT(mapper.writeValueAsString(account));
