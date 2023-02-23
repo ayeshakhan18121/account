@@ -187,8 +187,8 @@ public class currencyController {
 			}
 			
 			if (currencyid == 0) {
-				if (!jsonObj.has("country_ID") || jsonObj.isNull("country_ID"))
-					return new ResponseEntity(getAPIResponse(null, null , null, null, "country ID is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
+				if (!jsonObj.has("location_ID") || jsonObj.isNull("location_ID"))
+					return new ResponseEntity(getAPIResponse(null, null , null, null, "location ID is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
 				
 				if (!jsonObj.has("iso_CODE") || jsonObj.isNull("iso_CODE"))
 					return new ResponseEntity(getAPIResponse(null, null , null, null, "iso CODE is missing", apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.BAD_REQUEST);
@@ -207,8 +207,8 @@ public class currencyController {
 				
 			}
 			
-			if (jsonObj.has("country_ID") && !jsonObj.isNull("country_ID"))
-			currency.setCOUNTRY_ID(jsonObj.getLong("country_ID"));
+			if (jsonObj.has("location_ID") && !jsonObj.isNull("location_ID"))
+			currency.setLOCATION_ID(jsonObj.getLong("location_ID"));
 			
 			if (jsonObj.has("iso_CODE") && !jsonObj.isNull("iso_CODE"))
 				currency.setISO_CODE(jsonObj.getString("iso_CODE"));
@@ -326,18 +326,18 @@ public class currencyController {
 		
 		List<Currency> currencies = new ArrayList<Currency>();
 		JSONObject jsonObj = new JSONObject(data);
-		long country_ID = 0, currencysymbolplacement_ID = 0;
+		long location_ID = 0, currencysymbolplacement_ID = 0;
 	
-		if (jsonObj.has("country_ID"))
-			country_ID = jsonObj.getLong("country_ID");
+		if (jsonObj.has("location_ID"))
+			location_ID = jsonObj.getLong("location_ID");
 		
 		if (jsonObj.has("currencysymbolplacement_ID"))
 			currencysymbolplacement_ID = jsonObj.getLong("currencysymbolplacement_ID");
 		
-		if(country_ID != 0 || currencysymbolplacement_ID != 0){
+		if(location_ID != 0 || currencysymbolplacement_ID != 0){
 			 currencies = ((active == true)
-				? currencyrepository.findByAdvancedSearch(country_ID,  currencysymbolplacement_ID)
-				: currencyrepository.findAllByAdvancedSearch(country_ID,  currencysymbolplacement_ID));
+				? currencyrepository.findByAdvancedSearch(location_ID,  currencysymbolplacement_ID)
+				: currencyrepository.findAllByAdvancedSearch(location_ID,  currencysymbolplacement_ID));
 		}
 		return new ResponseEntity(getAPIResponse(currencies, null , null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
@@ -377,9 +377,9 @@ public class currencyController {
 			apirequestdatalogRepository.saveAndFlush(apiRequest);
 		} else {
 			if (currency != null) {
-				if(currency.getCOUNTRY_ID() != null) {
-					JSONObject country = new JSONObject(AccountService.GET("currencyparrent/"+currency.getCOUNTRY_ID(), apiRequest.getREQUEST_OUTPUT()));
-					currency.setCOUNTRY_DETAIL(country.toString());
+				if(currency.getLOCATION_ID() != null) {
+					JSONObject location = new JSONObject(AccountService.GET("currencyparrent/"+currency.getLOCATION_ID(), apiRequest.getREQUEST_OUTPUT()));
+					currency.setLOCATION_DETAIL(location.toString());
 			    }
 				if(currency.getCURRENCYSYMBOLPLACEMENT_ID() != null) {
 					JSONObject currencysymbolplacement = new JSONObject(AccountService.GET("currencysymbolplacement/"+currency.getCURRENCYSYMBOLPLACEMENT_ID(), apiRequest.getREQUEST_OUTPUT()));
@@ -391,11 +391,11 @@ public class currencyController {
 				
 				} else if(currencies != null){
 					if (currencies.size()>0) {
-					List<Integer> countryList = new ArrayList<Integer>();
+					List<Integer> locationList = new ArrayList<Integer>();
 					for (int i=0; i<currencies.size(); i++) {
-						countryList.add(Integer.parseInt(currencies.get(i).getCOUNTRY_ID().toString()));
+						locationList.add(Integer.parseInt(currencies.get(i).getLOCATION_ID().toString()));
 					}
-					JSONArray countryObject = new JSONArray(AccountService.POST("country/ids", "{countries: "+countryList+"}", apiRequest.getREQUEST_OUTPUT()));
+					JSONArray locationObject = new JSONArray(AccountService.POST("location/ids", "{locations: "+locationList+"}", apiRequest.getREQUEST_OUTPUT()));
 					
 					List<Integer> currencysymbolplacementList = new ArrayList<Integer>();
 					for (int i=0; i<currencies.size(); i++) {
@@ -405,15 +405,15 @@ public class currencyController {
 					
 					
 					for (int i=0; i<currencies.size(); i++) {
-					for (int j=0; j<countryObject.length(); j++) {
-						JSONObject country = countryObject.getJSONObject(j);
-						if(currencies.get(i).getCOUNTRY_ID() == country.getLong("country_ID") ) {
-							currencies.get(i).setCOUNTRY_DETAIL(country.toString());
+					for (int j=0; j<locationObject.length(); j++) {
+						JSONObject location = locationObject.getJSONObject(j);
+						if(currencies.get(i).getLOCATION_ID() == location.getLong("location_ID") ) {
+							currencies.get(i).setLOCATION_DETAIL(location.toString());
 						}
 					}
 					
 					for (int j=0; j<currencysymbolplacementObject.length(); j++) {
-						JSONObject currencysymbolplacement = countryObject.getJSONObject(j);
+						JSONObject currencysymbolplacement = locationObject.getJSONObject(j);
 						if(currencies.get(i).getCURRENCYSYMBOLPLACEMENT_ID() == currencysymbolplacement.getLong("currencysymbolplacement_ID") ) {
 							currencies.get(i).setCURRENCYSYMBOLPLACEMENT_DETAIL(currencysymbolplacement.toString());
 						}

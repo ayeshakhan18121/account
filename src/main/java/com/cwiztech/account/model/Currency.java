@@ -19,11 +19,11 @@ public class Currency {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long CURRENCY_ID;
 
-	@Column(name = "COUNTRY_ID")
-	private Long COUNTRY_ID;
+	@Column(name = "LOCATION_ID")
+	private Long LOCATION_ID;
 	
 	@Transient
-	private String COUNTRY_DETAIL;
+	private String LOCATION_DETAIL;
 
 	@Column(name = "ISO_CODE")
 	private String ISO_CODE;
@@ -64,20 +64,20 @@ public class Currency {
 		CURRENCY_ID = cURRENCY_ID;
 	}
 
-	public Long getCOUNTRY_ID() {
-		return COUNTRY_ID;
+	public Long getLOCATION_ID() {
+		return LOCATION_ID;
 	}
 
-	public void setCOUNTRY_ID(Long cOUNTRY_ID) {
-		COUNTRY_ID = cOUNTRY_ID;
+	public void setLOCATION_ID(Long cOUNTRY_ID) {
+		LOCATION_ID = cOUNTRY_ID;
 	}
 
-	public String getCOUNTRY_DETAIL() {
-		return COUNTRY_DETAIL;
+	public String getLOCATION_DETAIL() {
+		return LOCATION_DETAIL;
 	}
 
-	public void setCOUNTRY_DETAIL(String cOUNTRY_DETAIL) {
-		COUNTRY_DETAIL = cOUNTRY_DETAIL;
+	public void setLOCATION_DETAIL(String cOUNTRY_DETAIL) {
+		LOCATION_DETAIL = cOUNTRY_DETAIL;
 	}
 
 	public String getISO_CODE() {
