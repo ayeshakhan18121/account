@@ -24,9 +24,6 @@ public class Account {
 	@Column(name = "ACCOUNTPARENT_ID")
 	private Long ACCOUNTPARENT_ID;
 	
-	@Transient
-	private String ACCOUNTPARENT_DETAIL;
-	
 	@Column(name = "ACCOUNTTYPE_ID")
 	private Long ACCOUNTTYPE_ID;
 	
@@ -87,14 +84,6 @@ public class Account {
 
 	public void setACCOUNTPARENT_ID(Long aCCOUNTPARENT_ID) {
 		ACCOUNTPARENT_ID = aCCOUNTPARENT_ID;
-	}
-
-	public String getACCOUNTPARENT_DETAIL() {
-		return ACCOUNTPARENT_DETAIL;
-	}
-
-	public void setACCOUNTPARENT_DETAIL(String aCCOUNTPARENT_DETAIL) {
-		ACCOUNTPARENT_DETAIL = aCCOUNTPARENT_DETAIL;
 	}
 
 	public Long getACCOUNTTYPE_ID() {

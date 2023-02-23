@@ -330,10 +330,7 @@ public class accountController {
 		
 		List<Account> accounts = new ArrayList<Account>();
 		JSONObject jsonObj = new JSONObject(data);
-		long accountparent_ID = 0, accounttype_ID = 0, generalratetype_ID = 0, classflowratetype_ID = 0;
-	
-		if (jsonObj.has("accountparent_ID"))
-			accountparent_ID = jsonObj.getLong("accountparent_ID");
+		long accounttype_ID = 0, generalratetype_ID = 0, classflowratetype_ID = 0;
 		
 		if (jsonObj.has("accounttype_ID"))
 			accounttype_ID = jsonObj.getLong("accounttype_ID");
@@ -344,10 +341,10 @@ public class accountController {
 		if (jsonObj.has("classflowratetype_ID"))
 			classflowratetype_ID = jsonObj.getLong("classflowratetype_ID");
 		
-		if(accountparent_ID != 0 || accounttype_ID != 0 || generalratetype_ID != 0 || classflowratetype_ID != 0){
+		if(accounttype_ID != 0 || generalratetype_ID != 0 || classflowratetype_ID != 0){
 			 accounts = ((active == true)
-				? accountrepository.findByAdvancedSearch(accountparent_ID,  accounttype_ID,  generalratetype_ID, classflowratetype_ID)
-				: accountrepository.findAllByAdvancedSearch(accountparent_ID,  accounttype_ID,  generalratetype_ID, classflowratetype_ID));
+				? accountrepository.findByAdvancedSearch( accounttype_ID,  generalratetype_ID, classflowratetype_ID)
+				: accountrepository.findAllByAdvancedSearch( accounttype_ID,  generalratetype_ID, classflowratetype_ID));
 		}
 		return new ResponseEntity(getAPIResponse(accounts, null , null, null, null, apiRequest, false).getREQUEST_OUTPUT(), HttpStatus.OK);
 	}
@@ -387,10 +384,6 @@ public class accountController {
 			apirequestdatalogRepository.saveAndFlush(apiRequest);
 		} else {
 			if (account != null) {
-				if(account.getACCOUNTPARENT_ID() != null) {
-					JSONObject accountparent = new JSONObject(AccountService.GET("accountparrent/"+account.getACCOUNTPARENT_ID(), apiRequest.getREQUEST_OUTPUT()));
-					account.setACCOUNTPARENT_DETAIL(accountparent.toString());
-			    }
 				if(account.getACCOUNTTYPE_ID() != null) {
 					JSONObject accounttype = new JSONObject(AccountService.GET("accounttype/"+account.getACCOUNTTYPE_ID(), apiRequest.getREQUEST_OUTPUT()));
 					account.setACCOUNTTYPE_DETAIL(accounttype.toString());
@@ -408,12 +401,6 @@ public class accountController {
 				
 				} else if(accounts != null){
 					if (accounts.size()>0) {
-					List<Integer> accountparentList = new ArrayList<Integer>();
-					for (int i=0; i<accounts.size(); i++) {
-						accountparentList.add(Integer.parseInt(accounts.get(i).getACCOUNTPARENT_ID().toString()));
-					}
-					JSONArray accountparentObject = new JSONArray(AccountService.POST("accountparent/ids", "{accountparents: "+accountparentList+"}", apiRequest.getREQUEST_OUTPUT()));
-					
 					List<Integer> accounttypeList = new ArrayList<Integer>();
 					for (int i=0; i<accounts.size(); i++) {
 						accounttypeList.add(Integer.parseInt(accounts.get(i).getACCOUNTTYPE_ID().toString()));
@@ -435,13 +422,6 @@ public class accountController {
 					JSONArray classflowratetypeObject = new JSONArray(AccountService.POST("classflowratetype/ids", "{classflowratetypes: "+generalratetypeList+"}", apiRequest.getREQUEST_OUTPUT()));
 			
 					for (int i=0; i<accounts.size(); i++) {
-					for (int j=0; j<accountparentObject.length(); j++) {
-						JSONObject accountparent = accountparentObject.getJSONObject(j);
-						if(accounts.get(i).getACCOUNTPARENT_ID() == accountparent.getLong("accountparent_ID") ) {
-							accounts.get(i).setACCOUNTPARENT_DETAIL(accountparent.toString());
-						}
-					}
-					
 					for (int j=0; j<accounttypeObject.length(); j++) {
 						JSONObject accounttype = accounttypeObject.getJSONObject(j);
 						if(accounts.get(i).getACCOUNTTYPE_ID() == accounttype.getLong("accounttype_ID") ) {
